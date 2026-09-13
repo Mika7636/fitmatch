@@ -1,0 +1,32 @@
+{
+  "name": "fitmatch-frontend",
+  "private": true,
+  "version": "0.4.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node node_modules/vite/bin/vite.js",
+    "build": "node scripts/check-images.mjs && node node_modules/typescript/bin/tsc -b && node node_modules/vite/bin/vite.js build",
+    "preview": "node node_modules/vite/bin/vite.js preview",
+    "typecheck": "node node_modules/typescript/bin/tsc -b --force",
+    "lint": "node node_modules/oxlint/bin/oxlint",
+    "verify": "node scripts/run-verify.mjs",
+    "check:images": "node scripts/check-images.mjs"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  },
+  "description": "FitMatch frontend - React + Vite + TypeScript + Tailwind over the FastAPI recommender."
+}

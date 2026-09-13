@@ -1,0 +1,24 @@
+# Raw Kaggle downloads (283 MB) -- re-download into data/raw/ instead.
+data/raw/*
+!data/raw/.gitkeep
+
+# Built outputs: reproducible from the raw files with `make data`.
+# data/processed/*.csv  -- committed so teammates can run without the Kaggle downloads
+
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Fitted TF-IDF model, rebuilt on demand by src/recommender/pipeline.py.
+data/cache/
+
+.pytest_cache/
+
+# Session 4 -- the frontend. node_modules is reinstallable from
+# package-lock.json; dist is the production build.
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local

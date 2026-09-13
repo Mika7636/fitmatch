@@ -1,0 +1,35 @@
+# FitMatch data layer -- pandas and its numpy dependency, plus the Excel
+# reader needed for the Adidas .xlsx download. Nothing else.
+pandas>=2.0
+numpy>=1.24
+openpyxl>=3.1
+
+# Session 2 -- the recommendation engine.
+# scikit-learn provides TfidfVectorizer and cosine_similarity (Ch3);
+# scipy backs the sparse matrices; joblib caches the fitted TF-IDF model so
+# the session-3 API never rebuilds it per request.
+scikit-learn>=1.3
+scipy>=1.10
+joblib>=1.3
+
+# Session 3 -- the HTTP API.
+# fastapi routes and generates the OpenAPI docs; pydantic v2 validates every
+# request and response against the vocabularies measured from the CSVs;
+# uvicorn serves it (run_api.bat / python -m src.api).
+fastapi>=0.115
+pydantic>=2.7
+uvicorn[standard]>=0.30
+
+# Test suite: run_tests.bat / python -m pytest
+# httpx backs fastapi.testclient.TestClient, which tests/test_api.py uses to
+# exercise the API in-process -- no server to start.
+pytest>=7.4
+httpx>=0.27
+
+# Session 5 -- offline evaluation.
+# matplotlib draws the four comparison charts written to reports/figures/;
+# scipy (already required above) supplies the Spearman correlation quoted in
+# reports/circularity_note.md. Nothing in src/recommender/ or src/api/ imports
+# either, so the app runs without them -- only `python -m src.evaluation.*`
+# needs matplotlib.
+matplotlib>=3.7

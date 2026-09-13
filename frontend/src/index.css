@@ -1,0 +1,199 @@
+@import 'tailwindcss';
+
+/*
+  The deck's palette, as Tailwind v4 theme tokens. Naming them here rather
+  than repeating hex codes in components means `bg-crimson` and `text-ash`
+  are the only spellings in the app.
+
+  Contrast, checked against WCAG AA:
+    white on crimson-700 (#8B0000)  ~ 11.6:1
+    white on crimson-600 (#A80000)  ~  8.6:1
+    ink-900 (#0A0A0A) on ash (#E8E8E8) ~ 17.9:1
+    ash on ink-900                  ~ 17.9:1
+  The one combination to avoid is crimson on ink; crimson only ever carries
+  white text, and only ever sits on ink or ash.
+*/
+@theme {
+  --color-crimson-900: #6b0000;
+  --color-crimson-800: #7a0000;
+  --color-crimson-700: #8b0000;
+  --color-crimson-600: #a80000;
+  --color-crimson-500: #c41010;
+
+  --color-ink-950: #050505;
+  --color-ink-900: #0a0a0a;
+  --color-ink-800: #141414;
+  --color-ink-700: #1f1f1f;
+  --color-ink-600: #2e2e2e;
+
+  --color-ash: #e8e8e8;
+  --color-ash-dim: #c9c9c9;
+  --color-ash-muted: #9a9a9a;
+
+  --font-display:
+    'Archivo', 'Archivo Narrow', 'Oswald', 'Arial Narrow', 'Helvetica Neue',
+    system-ui, sans-serif;
+  --font-sans:
+    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-ink-900);
+    color: var(--color-ash);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
+  }
+
+  /*
+    One focus style for the whole app, on the element's own colour-scheme.
+    Every interactive element is reachable by keyboard, so this has to be
+    visible on ink, on ash and on crimson alike -- hence the double ring.
+  */
+  :focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px var(--color-crimson-600);
+  }
+
+  ::selection {
+    background: var(--color-crimson-600);
+    color: #fff;
+  }
+}
+
+@layer components {
+  /* The deck's diagonal: a hard-edged slash used as a section divider. */
+  .slash-top {
+    clip-path: polygon(0 3.5rem, 100% 0, 100% 100%, 0 100%);
+  }
+  .slash-bottom {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3.5rem), 0 100%);
+  }
+
+  /* Angled crimson stripe, the campaign-poster accent. */
+  .stripe-crimson {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--color-crimson-700) 0 10px,
+      var(--color-crimson-600) 10px 20px
+    );
+  }
+
+  .stripe-ink {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent 0 8px,
+      rgb(255 255 255 / 0.045) 8px 16px
+    );
+  }
+
+  /* Uppercase micro-label used above headings and on stat tiles. */
+  .eyebrow {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    font-size: 0.6875rem;
+  }
+}
+
+/*
+  Range inputs are the one control Tailwind cannot reach, and the budget
+  slider is two of them stacked. The track is drawn by the wrapper; these
+  rules make the input itself transparent and leave only the thumb.
+*/
+.range-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  pointer-events: none;
+}
+.range-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 9999px;
+  background: var(--color-crimson-600);
+  border: 3px solid var(--color-ash);
+  cursor: grab;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.6);
+}
+.range-thumb::-webkit-slider-thumb:active {
+  cursor: grabbing;
+}
+.range-thumb::-moz-range-thumb {
+  pointer-events: auto;
+  height: 1.5rem;
+  width: 1.5rem;
+  border: 3px solid var(--color-ash);
+  border-radius: 9999px;
+  background: var(--color-crimson-600);
+  cursor: grab;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.6);
+}
+.range-thumb::-moz-range-track {
+  background: transparent;
+}
+.range-thumb:focus-visible::-webkit-slider-thumb {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+.range-thumb:focus-visible::-moz-range-thumb {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-ink-700);
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255 255 255 / 0.07),
+    transparent
+  );
+  animation: shimmer 1.4s infinite;
+}
