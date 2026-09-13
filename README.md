@@ -5,7 +5,7 @@ constraints rather than as features — and says out loud which of your
 preferences it had to give up.
 
 DS&RS 541 / CSX 4207 term project. Two techniques from the course list, kept in
-separate modules and combined in a cascade, over a 10,000-product catalogue
+separate modules and combined in a cascade, over a 10,000-products catalogue
 built from four Kaggle datasets, served by a FastAPI backend and a React
 frontend.
 
